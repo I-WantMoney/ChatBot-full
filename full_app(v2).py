@@ -50,6 +50,7 @@ def get_text_from_mp3(mp3_file):
             if mp3 not in temp_mp3s:
                 print(mp3)
                 audio_file  = mp3
+                # OpenAIのwhisperモデルでスピーチテキスト変換
                 transcript = client.audio.transcriptions.create(
                     model = "whisper-1",
                     file = audio_file,
@@ -95,7 +96,7 @@ def get_vectorstore(chunks):
     return vectorstore
 
 def get_context_retriever_chain(vector_store):
-    llm = ChatOpenAI(model=llm_model)
+    llm = ChatOpenAI(model=llm_model) # カッコ内でapi-keyの指定、モデルの指定などができます。コードの先頭にdotenvを使ったので、自動的に.envファイルからapi-keyを取得します
     retriever = vector_store.as_retriever()
     prompt = ChatPromptTemplate.from_messages([
         MessagesPlaceholder(variable_name="chat_history"),
@@ -109,7 +110,7 @@ def get_context_retriever_chain(vector_store):
 
 def get_conversational_rag_chain(retriever_chain):
     
-    llm = ChatOpenAI(model=llm_model)
+    llm = ChatOpenAI(model=llm_model) # カッコ内でapi-keyの指定、モデルの指定などができます。コードの先頭にdotenvを使ったので、自動的に.envファイルからapi-keyを取得します
     prompt = ChatPromptTemplate.from_messages([
         ("system","Answer the user's questions based on the below context:\n\n{context}"),
         MessagesPlaceholder(variable_name="chat_history"),
