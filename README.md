@@ -80,8 +80,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 ```
+### 知識データの取得
 
-### テキスト抽出
+　　第一歩としては、データソースから知識データベースを作成します。
+
+  ![text_extract](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/text_extract.png "text extract")
+
+#### テキスト抽出
 
 　　モデル使用料金を節約するために、新追加のファイルのみに対し、テキスト化の処理をします、すでに存在しているファイルは処理しません。
   
@@ -167,7 +172,7 @@ def get_text_from_url(url):
 
 ```
 
-### テキストの分割とベクトル化
+#### テキストの分割とベクトル化
 
 　　RAG+LLMとは、人間の質問に一番合っている情報を知識ベースの中から見つけ出し、LLM経由で人間の分かる言葉を出力します。
 
