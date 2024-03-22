@@ -57,9 +57,9 @@ streamlit run full_app(v2).py
 
 ## Part 3. 各関数の説明
 
-　　本アプリはStreamlitのフレームワークで作成されます。Streamlit は、データスクリプトを数分で共有可能なWebアプリに変換することができます。言語はすべて```Python```です。
+    本アプリはStreamlitのフレームワークで作成されます。Streamlit は、データスクリプトを数分で共有可能なWebアプリに変換することができます。言語はすべて```Python```です。
   
-  　RAGの流れは以下です、これからは各関数の役割を紹介します。
+    RAGの流れは以下です、これからは各関数の役割を紹介します。
    
    ![RAG](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/RAG.png "RAG")
 
