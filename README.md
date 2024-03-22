@@ -249,6 +249,7 @@ def get_context_retriever_chain(vector_store):
   チャットボットに知識データを知らせるために、Prompt内に知識データを入れる必要があります。
 
   ![prompt](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/prompt.png "prompt")
+  
 ```python
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
@@ -257,9 +258,12 @@ def get_conversational_rag_chain(retriever_chain):
   
   llm = ChatOpenAI(model=llm_model) # カッコ内でapi-keyの指定、モデルの指定などができます。コードの先頭にdotenvを使ったので、自動的に.envファイルからapi-keyを取得します
   prompt = ChatPromptTemplate.from_messages([
+
       # contextは抽出された有用なデータ
       ("system","Answer the user's questions based on the below context:\n\n{context}"),
       MessagesPlaceholder(variable_name="chat_history"),
+
+      # inputはユーザーの質問文
       ("user","{input}")
   ])
   
