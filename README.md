@@ -221,7 +221,7 @@ def get_vectorstore(chunks):
 
 * 会話履歴を取得してドキュメントを返すチェーンを作成
 
-Promptに会話履歴を入れ、命令のような説明を追加してAIに会話履歴を参照させます。
+    Promptに会話履歴を入れ、命令のような説明を追加してAIに会話履歴を参照させます。
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
