@@ -215,7 +215,7 @@ def get_vectorstore(chunks):
   return vectorstore
 ```
 
-### 会話履歴の設定
+### 3.4 会話履歴の設定
 
 　　ChatGPTウェブ版を使うとき、履歴にある話題の質問もできることにみんなは気づいたんでしょう。Langchainツールを使い、その機能を簡単に実現できます（統合されていますので、実は以下の設定をすれば十分です）。
 
@@ -278,7 +278,7 @@ def get_response(user_input):
     return response['answer']
 ```
 
-### ボタン状態の設定
+### 3.5 ボタン状態の設定
 
 　　Streamlitの特性で、何の処理もしないと、ボタンなどの状態（```state```）は保つことはできません、クリック状態をセッションに入れる関数を作ります。
 
@@ -290,7 +290,7 @@ def click_button():
 ## Part 4.main関数説明
 　　以下のコードは全部「def main():」の内容です、以下は「def main():」を省略します。
 
-### アプリケーションのページとタイトル設定
+### 4.1 アプリケーションのページとタイトル設定
 
 ```python
 # app config
@@ -305,7 +305,7 @@ st.info("Click the :red[_Process_] button before asking questions\n(:red[_Only t
 
 ![st title](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/st_title.png "st title")
 
-### セッションに入れる要素の初期化
+### 4.2 セッションに入れる要素の初期化
 
 　　セッションに入れるものはアプリが起動している限り、状態（```state```）の変更を含めて、その状態をずっと維持します。
 
@@ -330,7 +330,7 @@ if "vector_store" not in st.session_state:
     st.session_state.vector_store = None
 ```
 
-### サイドバーの設定
+### 4.3 サイドバーの設定
 　　PDF、MP3、ウェブサイトをアップロード/入力するパーツをサイドバーに入れます。
 
 ```python
@@ -353,7 +353,7 @@ with st.sidebar:
 
 ![page title](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/sidebar.png "sidebar")
 
-### ファイルのドキュメント化処理
+### 4.4 ファイルのドキュメント化処理
 
 　　ファイルの存在情況次第で読み込みをするかどうかを判断
 
@@ -379,7 +379,7 @@ else:
         audio_raw_doc = [Document(page_content="")]
 ```
 
-### URLのドキュメント化処理
+### 4.5 URLのドキュメント化処理
 
 　　ファイルと同じように判断
 
@@ -395,7 +395,7 @@ else:
         url_doc = get_text_from_url(website_url)
 ```
 
-### ドキュメント＋ユーザーの質問＋会話履歴＝AI回答生成
+### 4.6 ドキュメント＋ユーザーの質問＋会話履歴＝AI回答生成
 
 ```python
 # ファイルまたはURLがある場合、全てのテキストドックをfull_docに入れて、ベクトルストアーを作成する
@@ -446,7 +446,7 @@ if url_existance or file_existance:
                 st.write(message.content)
 ```
 
-### ボタンの設定
+### 4.7 ボタンの設定
 　　何もアップロードしないと、当然AIは質問に答えられません、この時エラーが発生しちゃいます。
   
 　　それを防ぐために、ファイルをアプロードし、「```Process```」ボタンを押した後、ユーザー入力用のチャットバーを表示するような仕組みを作成します。
