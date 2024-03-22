@@ -219,6 +219,8 @@ def get_vectorstore(chunks):
 
 　　ChatGPTウェブ版を使うとき、履歴にある話題の質問もできることにみんなは気づいたんでしょう。Langchainツールを使い、その機能を簡単に実現できます（統合されていますので、実は以下の設定をすれば十分です）。
 
+  ![prompt](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/prompt.png "prompt")
+
 * 会話履歴を取得してドキュメントを返すチェーンを作成
 
     Promptに会話履歴を入れ、命令のような説明を追加してAIに会話履歴を参照させます。
@@ -247,8 +249,6 @@ def get_context_retriever_chain(vector_store):
 * ドキュメントのリストをモデルに渡すためのチェーンを作成
 
   チャットボットに知識データを知らせるために、Prompt内に知識データを入れる必要があります。
-
-  ![prompt](https://github.com/I-WantMoney/ChatBot-full/raw/main/app_pic/prompt.png "prompt")
   
 ```python
 from langchain.chains import create_retrieval_chain
