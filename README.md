@@ -215,18 +215,19 @@ def get_vectorstore(chunks):
   return vectorstore
 ```
 
-### 3.4 会話履歴の設定
+### 3.4 LLMに渡すためのPrompt設定
 
 　　ChatGPTウェブ版を使うとき、履歴にある話題の質問もできることにみんなは気づいたんでしょう。Langchainツールを使い、その機能を簡単に実現できます（統合されていますので、実は以下の設定をすれば十分です）。
 
 * 会話履歴を取得してドキュメントを返すチェーンを作成
 
-LLMの選定は自由に選べます、ここではOpenAIのモデルです。
+Promptに会話履歴を入れ、命令のような説明を追加してAIに会話履歴を参照させます。
 
 ```python
 from langchain_core.prompts import ChatPromptTemplate,MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever
 
+# LLMの選定は自由に選べます、ここではOpenAIのモデルです
 llm_model = os.environ["OPENAI_API_MODEL"]
 def get_context_retriever_chain(vector_store):
   llm = ChatOpenAI(model=llm_model) # カッコ内でapi-keyの指定、モデルの指定などができます。コードの先頭にdotenvを使ったので、自動的に.envファイルからapi-keyを取得します
@@ -234,6 +235,7 @@ def get_context_retriever_chain(vector_store):
   prompt = ChatPromptTemplate.from_messages([
       MessagesPlaceholder(variable_name="chat_history"),
       ("user","{input}"),
+      # 指示文
       ("user","Given the above conversation, generate a search query to look up in order to get information relevant to the conversation")
   ])
   
@@ -243,6 +245,8 @@ def get_context_retriever_chain(vector_store):
 ```
 
 * ドキュメントのリストをモデルに渡すためのチェーンを作成
+
+  チャットボットに知識データを知らせるために、Prompt内に抽出された知識データを入れる必要があります。
 
 ```python
 from langchain.chains import create_retrieval_chain
