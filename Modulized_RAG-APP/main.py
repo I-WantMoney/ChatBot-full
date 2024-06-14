@@ -59,19 +59,19 @@ def main():
             st.info(":red[_Enter a URL or Upload some files_]")
         
         else:
+            # ローカルあり、s3なしの場合
             if allfile != [] and (s3_uri is None):
                 file_existance = True
                 file_raw_doc = get_text_from_file(allfile)
                 s3_raw_doc = []
-                full_doc_add = file_raw_doc
-                st.session_state.full_doc += full_doc_add
             
+            #　ローカルなし、s3ありの場合
             if allfile == [] and (s3_uri is not None):
                 file_existance = True
                 file_raw_doc = []
                 s3_raw_doc = get_text_from_s3_file(s3_uri)
-                
-                
+            
+            #　ローカルあり、s3ありの場合
             if allfile != [] and (s3_uri is not None):
                 file_existance = True
                 s3_raw_doc = get_text_from_s3_file(s3_uri)
