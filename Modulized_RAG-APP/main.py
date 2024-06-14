@@ -1,6 +1,7 @@
 import streamlit as st
 from button_setting import click_button
-from text_extract import get_text_from_file
+from file_text_extract import get_text_from_file
+from s3_text_extract import get_text_from_s3_file
 from langchain_core.messages import AIMessage, HumanMessage
 from chunk_setting import get_chunks
 from response_gen import get_response
@@ -19,6 +20,10 @@ def main():
     # ファイル存在情況の初期化
     if "file_s" not in st.session_state:
         st.session_state.file_s = [] 
+        
+    # S3ファイル存在情況の初期化
+    if "uri_s" not in st.session_state: 
+        st.session_state.uri_s = []
     
     # ----の初期化
     if "full_doc" not in st.session_state:
@@ -36,6 +41,9 @@ def main():
         st.subheader("_Upload_ a :rainbow[FILE] :books:")
         allfile = st.file_uploader("Upload your FILE here and click on '_Process_'",accept_multiple_files=True,type=["xlsx","docx","pdf"])
         
+        st.subheader("_Upload_ a :blue[S3 Bucket URI] :link:")
+        s3_uri = st.text_input("_S3 URI_")
+        
         st.header("",divider="blue")
     
     # ボタン
@@ -44,18 +52,33 @@ def main():
     # クリックされたら、その状態をセッションに保存  
     if st.session_state.clicked:
         
-        # latest ---------------------------------------------
-        if allfile == []:
+        if allfile == [] and (s3_uri is None):
             file_existance = False
             file_raw_doc = []
+            s3_raw_doc = []
             st.info(":red[_Enter a URL or Upload some files_]")
         
         else:
-            file_existance = True
-            file_raw_doc = get_text_from_file(allfile)
-            full_doc_add = file_raw_doc
+            if allfile != [] and (s3_uri is None):
+                file_existance = True
+                file_raw_doc = get_text_from_file(allfile)
+                s3_raw_doc = []
+                full_doc_add = file_raw_doc
+                st.session_state.full_doc += full_doc_add
+            
+            if allfile == [] and (s3_uri is not None):
+                file_existance = True
+                file_raw_doc = []
+                s3_raw_doc = get_text_from_s3_file(s3_uri)
+                
+                
+            if allfile != [] and (s3_uri is not None):
+                file_existance = True
+                s3_raw_doc = get_text_from_s3_file(s3_uri)
+                file_raw_doc = get_text_from_file(allfile)
+                
+            full_doc_add = file_raw_doc + s3_raw_doc
             st.session_state.full_doc += full_doc_add
-        # ------------------------------------------------  
                 
             print (f"Added doc: {full_doc_add}")
             if "chat_history" not in st.session_state:
