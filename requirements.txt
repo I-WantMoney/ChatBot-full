@@ -7,3 +7,4 @@ openai
 python-dotenv
 PyPDF2
 chromadb
+s3fs
